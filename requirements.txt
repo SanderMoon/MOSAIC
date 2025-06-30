@@ -1,0 +1,21 @@
+torch==2.4.1
+transformers==4.44.1
+numpy==2.0.1
+peft==0.12.0
+pytest==8.3.2
+pytest-cov==5.0.0
+debugpy==1.8.2
+sacremoses==0.1.1
+scikit-learn==1.5.1
+black==24.8.0
+tensorboard==2.17.1
+pandas==2.2.2
+language-tool-python==2.8.1
+lorem-text==2.1
+matplotlib==3.9.2
+evaluate==0.4.3
+rouge-score==0.1.2 
+nltk==3.9.1  # for evaluate meteor
+git+https://github.com/salaniz/pycocoevalcap.git
+h5py==3.12.1
+expecttest==0.2.1

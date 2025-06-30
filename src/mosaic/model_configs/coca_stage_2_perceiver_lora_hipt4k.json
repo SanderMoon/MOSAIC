@@ -1,0 +1,73 @@
+{
+    "embed_dim": 1024,
+    "vision_cfg": {
+        "input_dim": 192,
+        "method": "perceiver",
+        "pooling_strategy": "none",
+        "extra_config": {
+            "num_blocks": 8,
+            "num_self_attends_per_block": 6,
+            "z_index_dim": 512,
+            "num_z_channels": 1280,
+            "qk_channels": null,
+            "num_cross_attend_heads": 1,
+            "num_self_attend_heads": 8,
+            "cross_attend_widening_factor": 1,
+            "self_attend_widening_factor": 1,
+            "dropout_prob": 0.0,
+            "dropout_attn_prob": 0.0,
+            "z_pos_enc_init_scale": 0.02,
+            "att_init_scale": 1.0,
+            "dense_init_scale": 1.0,
+            "use_query_residual": false,
+            "mlp_activation": "geglu"
+        }
+    },
+    "text_cfg": {
+        "context_length": 76,
+        "load_pretrained": true,
+        "hf_model_name":"microsoft/biogpt",
+        "hf_tokenizer_name":"microsoft/biogpt",
+        "load_pretrained_model_start_layer": 0,
+        "load_pretrained_model_end_layer": 12,
+        "vocab_size": 42384,
+        "heads": 16,
+        "layers": 12,
+        "freeze_base": true,
+        "freeze_embedding": false,
+        "attn_pooler_vector_heads": 8,
+        "lora": true,
+        "lora_config" : {
+            "r": 4,
+            "lora_alpha": 4,
+            "target_modules": ["q_proj", "k_proj", "v_proj"],
+            "lora_dropout": 0,
+            "bias": "none"
+        },
+        "extra_config": {
+            "attention_probs_dropout_prob": 0.0,
+            "hidden_dropout_prob": 0.0,
+            "activation_dropout": 0.0
+        }
+    },
+    "multimodal_cfg": {
+        "context_length": 76,
+        "hf_model_name": "microsoft/biogpt",
+        "load_pretrained_model_start_layer": 12,
+        "load_pretrained_model_end_layer": 24,
+        "vocab_size": 42384,
+        "heads": 16,
+        "layers": 12,
+        "cross_attention_type": "default",
+        "load_pretrained": true,
+        "freeze_base": true,
+        "freeze_cross_attn": false,
+        "extra_config": {
+            "attention_probs_dropout_prob": 0.0,
+            "hidden_dropout_prob": 0.0,
+            "activation_dropout": 0.0
+        }
+    },
+    "custom_text": true
+
+}

@@ -1,0 +1,83 @@
+name: Auto Version Bump
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    if: "contains(github.event.head_commit.message, '[version:')"
+    
+    permissions:
+      contents: write
+      
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Extract version bump type from commit message
+      id: extract-bump-type
+      run: |
+        COMMIT_MSG="${{ github.event.head_commit.message }}"
+        echo "Commit message: $COMMIT_MSG"
+        
+        if [[ "$COMMIT_MSG" =~ \[version:\ *(major|minor|patch)\ *\] ]]; then
+          BUMP_TYPE="${BASH_REMATCH[1]}"
+          echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
+          echo "Found version bump type: $BUMP_TYPE"
+        else
+          echo "No valid version bump type found in commit message"
+          exit 1
+        fi
+
+    - name: Configure Git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+
+    - name: Bump version
+      id: bump-version
+      run: |
+        python scripts/bump_version.py ${{ steps.extract-bump-type.outputs.bump_type }}
+        
+        # Get the new version
+        NEW_VERSION=$(python -c "
+        import re
+        with open('pyproject.toml', 'r') as f:
+            content = f.read()
+        match = re.search(r'^version = \"([^\"]*)\"', content, re.MULTILINE)
+        print(match.group(1))
+        ")
+        
+        echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        echo "New version: $NEW_VERSION"
+
+    - name: Commit version changes
+      run: |
+        git add pyproject.toml src/mosaic/__init__.py
+        git commit -m "chore: bump version to ${{ steps.bump-version.outputs.new_version }}"
+
+    - name: Create and push tag
+      run: |
+        git tag -a "v${{ steps.bump-version.outputs.new_version }}" -m "Release v${{ steps.bump-version.outputs.new_version }}"
+        git push origin main
+        git push origin "v${{ steps.bump-version.outputs.new_version }}"
+
+    - name: Create GitHub Release
+      run: |
+        gh release create "v${{ steps.bump-version.outputs.new_version }}" \
+          --title "Release v${{ steps.bump-version.outputs.new_version }}" \
+          --notes "Auto-generated release for version ${{ steps.bump-version.outputs.new_version }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

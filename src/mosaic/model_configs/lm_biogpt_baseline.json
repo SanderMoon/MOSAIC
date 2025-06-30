@@ -1,0 +1,27 @@
+{
+    "embed_dim": 1024,
+    "text_cfg": {
+        "load_pretrained": true,
+        "hf_model_name":"microsoft/biogpt",
+        "hf_tokenizer_name":"microsoft/biogpt",
+        "vocab_size": 42384,
+        "freeze_base": true,
+        "layers": 24,
+        "heads": 16,
+        "attn_pooler_vector_heads": 8,
+        "lora": true,
+        "lora_config" : {
+            "r": 4,
+            "lora_alpha": 4,
+            "target_modules": ["q_proj", "k_proj", "v_proj"],
+            "lora_dropout": 0,
+            "bias": "none"
+        },
+        "extra_config": {
+            "attention_probs_dropout_prob": 0.5,
+            "hidden_dropout_prob": 0.0,
+            "activation_dropout": 0.0
+        }
+    }
+
+}

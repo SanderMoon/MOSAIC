@@ -1,0 +1,11 @@
+If you use this software in your research, please cite:
+
+@misc{lucassen2025pathologyreportgenerationmultimodal,
+      title={Pathology Report Generation and Multimodal Representation Learning for Cutaneous Melanocytic Lesions}, 
+      author={Ruben T. Lucassen and Sander P. J. Moonemans and Tijn van de Luijtgaarden and Gerben E. Breimer and Willeke A. M. Blokx and Mitko Veta},
+      year={2025},
+      eprint={2502.19293},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2502.19293}, 
+}

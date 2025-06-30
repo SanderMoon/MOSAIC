@@ -1,0 +1,47 @@
+{
+    "class_template": {
+      "image_bar_orientation": "diagonal",
+      "image_bar_thickness": "thick",
+      "num_samples": 2,
+      "augment_images": true,
+      "augment_images_noise_level": 10.0,
+      "augment_images_zoom_factor": [1.0, 1.3],
+      "augment_texts": true
+    },
+    "variations": {
+      "image_background_color": [
+        "blue", "red", "green", "yellow", "purple", "orange", "cyan",
+        "magenta", "lime", "pink", "teal", "lavender", "brown", "beige",
+        "maroon", "navy"
+      ]
+    },
+    "embedder_config": {
+      "embedder_name": "google/vit-base-patch16-224",
+      "device": "cpu",
+      "preprocessing": {
+        "resize": false,
+        "resize_size": null,
+        "normalize": false,
+        "normalization_mean": [0.485, 0.456, 0.406],
+        "normalization_std": [0.229, 0.224, 0.225],
+        "additional_transforms": null
+      }
+    },
+    "dataset_config": {
+      "hdf5_filename": "synthetic_dataset.hdf5",
+      "features_key": "features",
+      "positions_key": "positions",
+      "tile_keys_key": "tile_keys",
+      "text_key": "synthetic_text"
+    },
+    "split_config": {
+      "split": false,
+      "train": 0.7,
+      "val": 0.2,
+      "test": 0.1
+    },
+    "output_dir": "../data/synthetic_data_multi_class",
+    "num_tiles_base": 3,
+    "image_size": [224, 224]
+  }
+  
